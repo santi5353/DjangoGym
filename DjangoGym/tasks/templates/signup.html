@@ -12,7 +12,13 @@
         </div>
       {% endif %}
 
-      <form action="{% url 'signin' %}" method="POST" class="needs-validation" novalidate>
+      {% if success %}
+      <div class="alert alert-success" role="alert">
+        {{ success }}
+      </div>
+    {% endif %}
+
+      <form action="/signup/" method="POST" class="needs-validation" novalidate>
         {% csrf_token %}
         
         <div class="mb-3">
@@ -29,7 +35,7 @@
         <div class="mb-3 position-relative">
           <label for="password" class="form-label">Contraseña</label>
           {{ form.password.errors }}
-          <input type="password" name="{{ form.password.name }}" id="password" 
+          <input type="password" name="password1" id="password" 
                  class="form-control" placeholder="Ingresa tu contraseña" required>
           <div class="invalid-feedback">
             Por favor, ingresa tu contraseña.
@@ -41,7 +47,7 @@
 
         <div class="mb-3 position-relative">
           <label for="confirm_password" class="form-label">Repetir Contraseña</label>
-          <input type="password" name="confirm_password" id="confirm_password" 
+          <input type="password" name="password2" id="confirm_password" 
                  class="form-control" placeholder="Repite tu contraseña" required>
           <div class="invalid-feedback">
             Por favor, repite tu contraseña.
@@ -52,12 +58,12 @@
         </div>
         
         <button type="submit" class="btn btn-primary w-100 mt-3">
-          Ingresar
+          Registrarse
         </button>
       </form>
 
       <p class="text-center mt-4">
-        <a href="{% url 'signup' %}" class="text-decoration-none">¿No tienes cuenta? Regístrate</a>
+        <a href="/signin/" class="text-decoration-none">ya tines cuenta? Ingresa!</a>
       </p>
     </div>
   </div>

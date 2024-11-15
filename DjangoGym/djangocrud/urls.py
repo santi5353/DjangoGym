@@ -8,12 +8,15 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),
-    path('tasks/', views.tasks, name='tasks'),
-    path('tasks_completed/', views.tasks_completed, name='tasks_completed'),
+    # path('tasks/', views.tasks, name='tasks'),
+    # path('tasks_completed/', views.tasks_completed, name='tasks_completed'),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
-    path('create_task/', views.create_task, name='create_task'),
-    path('tasks/<int:task_id>', views.task_detail, name='task_detail'),
-    path('tasks/<int:task_id>/complete', views.complete_task, name='complete_task'),
-    path('tasks/<int:task_id>/delete', views.delete_task, name='delete_task'),
+   
+    path('instructores/', views.instructors, name='instructores'),
+    path('rutinas/', views.routines, name='rutinas'),
+    path('create-booking/', views.create_booking, name='create_booking'),
+    path('booking-success/', views.booking_success, name='booking_success'),
+    path('my_bookings/', views.my_bookings, name='my_bookings'),  # URL para ver las reservas del usuario
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

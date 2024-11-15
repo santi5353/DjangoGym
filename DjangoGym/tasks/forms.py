@@ -1,7 +1,12 @@
+from django import forms
 from django.forms import ModelForm
-from .models import Task
+from .models import Booking
 
-class TaskForm(ModelForm):
+
+class BookingForm(ModelForm):
     class Meta:
-        model = Task
-        fields = ['title', 'description', 'important']
+        model = Booking
+        fields = ['instructor', 'routine', 'class_date']
+        widgets = {
+            'class_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }

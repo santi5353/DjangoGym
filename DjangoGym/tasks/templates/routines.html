@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Rutinas Disponibles</h1>
+    <div class="row">
+        {% for routine in routines %}
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ routine.name }}</h5>
+                        <p class="card-text">{{ routine.description }}</p>
+                        <p class="card-text"><strong>Duración:</strong> {{ routine.duration_minutes }} minutos</p>
+                        <p class="card-text"><strong>Instructor:</strong> {{ routine.instructor.name }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

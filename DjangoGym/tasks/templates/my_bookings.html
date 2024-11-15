@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Mis Reservas</h2>
+
+    {% if bookings %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Instructor</th>
+                    <th>Rutina</th>
+                    <th>Fecha de Clase</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.instructor.name }}</td>
+                        <td>{{ booking.routine.name }}</td>
+                        <td>{{ booking.class_date|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes reservas actuales.</p>
+    {% endif %}
+    <a href="/create-booking">
+        <button type="button" class="btn btn-primary">Volver</button>
+    </a>
+</div>
+{% endblock %}

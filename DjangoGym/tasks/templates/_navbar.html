@@ -19,18 +19,18 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a href="{% url 'tasks_completed' %}" class="nav-link"
-            >complted tasks</a
+          <a href="/instructores" class="nav-link"
+            >Instructores</a
           >
         </li>
         <li class="nav-item">
-          <a href="{% url 'tasks' %}" class="nav-link">Tasks</a>
+          <a href="/rutinas" class="nav-link">Rutinas</a>
         </li>
         <li class="nav-item">
-          <a href="{% url 'create_task' %}" class="nav-link">Create Task</a>
+          <a href="/create-booking" class="nav-link">Turnos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/logout">Salir</a>
         </li>
         {% else %}
         <li class="nav-item">
