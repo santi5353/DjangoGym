@@ -1,36 +1,36 @@
+from django.views.generic import TemplateView, CreateView, ListView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import login
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import BookingForm, ContactoForm, CustomUserCreationForm, CustomAuthenticationForm
+from .models import Instructor, Routine, Booking
 from django.db import IntegrityError
-from django.contrib.auth.decorators import login_required
-from .forms import BookingForm, ContactoForm
-from .models import Instructor, Routine, Booking, Membresia, Servicio
-import logging
+from memberships.models import Membresia
+from services.models import Servicio
 
 
-# Home view that renders active memberships
-# Configuración básica de logging
-logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+# Vista de la página principal (Home)
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['membresias'] = Membresia.objects.filter(activo=True)
+        context['servicios'] = Servicio.objects.filter(activo=True)
+        return context
 
-def home(request):
-    membresias = Membresia.objects.filter(activo=True)
-    servicios = Servicio.objects.all()
-
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
         form = ContactoForm(request.POST)
         if form.is_valid():
-            # Obtener datos del formulario
             nombre = form.cleaned_data['nombre']
             email = form.cleaned_data['email']
             asunto = form.cleaned_data['asunto']
             mensaje = form.cleaned_data['mensaje']
-
-            # Intentar enviar el correo
             try:
                 send_mail(
                     f'Mensaje de {nombre} - {asunto}',
@@ -39,102 +39,98 @@ def home(request):
                     [settings.DEFAULT_FROM_EMAIL],
                     fail_silently=False,
                 )
-                # Agregar mensaje de éxito
-                messages.success(request, '¡Gracias por contactarnos, nos comunicaremos pronto con tigo!')
+                messages.success(request, '¡Gracias por contactarnos, nos comunicaremos pronto contigo!')
             except Exception as e:
-                # Agregar mensaje de error
-                messages.error(request, f'Error al enviar el correo,: {str(e)}')
+                messages.error(request, f'Error al enviar el correo: {str(e)}')
 
-            # Redirigir a la misma página con el formulario vacío después de enviar el mensaje
-            return render(request, 'home.html', {
-                'membresias': membresias,
-                'servicios': servicios,
-                'form': ContactoForm()  # Formulario vacío después del envío
-            })
-    else:
-        form = ContactoForm()
+            return self.render_to_response(self.get_context_data(form=ContactoForm()))  # Redirige con el formulario vacío
+        return self.render_to_response(self.get_context_data(form=form))  # En caso de error, vuelve a cargar el formulario
 
-    return render(request, 'home.html', {
-        'membresias': membresias,
-        'servicios': servicios,
-        'form': form
-    })
-# Signup view for new users
-def signup(request):
-    if request.method == 'GET':
-        return render(request, 'signup.html', {"form": UserCreationForm()})
-    else:
-        if request.POST["password1"] == request.POST["password2"]:
-            try:
-                user = User.objects.create_user(
-                    request.POST["username"], password=request.POST["password1"]
-                )
-                user.save()
-                login(request, user)
-                return redirect('home')  # Redirect to home after successful signup
-            except IntegrityError:
-                return render(request, 'signup.html', {
-                    "form": UserCreationForm(),
-                    "error": "El nombre de usuario ya existe. Por favor, elige otro.",
-                })
-        return render(request, 'signup.html', {
-            "form": UserCreationForm(),
-            "error": "Las contraseñas no coinciden.",
-        })
 
-# Sign-in view
-def signin(request):
-    if request.method == 'GET':
-        return render(request, 'signin.html', {"form": AuthenticationForm})
-    else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        if user is None:
-            return render(request, 'signin.html', {"form": AuthenticationForm, "error": "Username or password is incorrect."})
+# Vista para el registro de un usuario
+class UserSignupView(CreateView):
+    template_name = 'signup.html'
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('signup')  # Redirige a la misma página en caso de éxito, pero no es necesario para nuestro caso.
 
-        login(request, user)
-        return redirect('home')  # Redirect to home or a protected page
+    def form_valid(self, form):
+        user = form.save()  # Guarda el usuario
+        login(self.request, user)  # Inicia sesión automáticamente
+        messages.success(self.request, '¡Registro exitoso! Bienvenido.')
+        
+        # Devuelve el mismo template con el mensaje de éxito
+        return render(self.request, self.template_name, {'form': form, 'success': True})
 
-# Sign-out view
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('home')
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error en el registro. Verifica los datos.')
+        return render(self.request, self.template_name, {'form': form, 'success': False})
 
-# Instructor list view
-@login_required
-def instructors(request):
-    instructors = Instructor.objects.all()
-    return render(request, 'instructors.html', {"instructors": instructors})
+# Vista para el login de un usuario
+class UserLoginView(LoginView):
+    template_name = 'signin.html'
+    authentication_form = CustomAuthenticationForm
 
-# Routine list view
-@login_required
-def routines(request):
-    routines = Routine.objects.all()
-    return render(request, 'routines.html', {"routines": routines})
+    def form_valid(self, form):
+        messages.success(self.request, '¡Inicio de sesión exitoso!')
+        return super().form_valid(form)
 
-# Booking creation view
-@login_required
-def create_booking(request):
-    if request.method == 'POST':
-        form = BookingForm(request.POST)
-        if form.is_valid():
-            booking = form.save(commit=False)
-            booking.user = request.user  # Assign the authenticated user
-            booking.save()
-            return redirect('my_bookings')
-    else:
-        form = BookingForm()
+    def get_success_url(self):
+        return reverse_lazy('home')  # Redirige al home después de iniciar sesión
 
-    return render(request, 'create_booking.html', {'form': form})
+    def form_invalid(self, form):
+        messages.error(self.request, 'Nombre de usuario o contraseña incorrectos.')
+        return super().form_invalid(form)
 
-# Booking success page
-@login_required
-def booking_success(request):
-    return render(request, 'booking_success.html')
 
-# Display the user's bookings
-@login_required
-def my_bookings(request):
-    bookings = Booking.objects.filter(user=request.user)
-    return render(request, 'my_bookings.html', {'bookings': bookings})
+class UserLogoutView(LogoutView):
+    next_page = '/'  # Redirige al home después de cerrar sesión
 
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, 'Has cerrado sesión.')
+        return super().dispatch(request, *args, **kwargs)
+
+
+# Vista de bienvenida o página de éxito después de login/signup
+class WelcomeView(TemplateView):
+    template_name = 'users/welcome.html'
+
+
+# Vista para listar instructores (requiere autenticación)
+class InstructorListView(LoginRequiredMixin, ListView):
+    model = Instructor
+    template_name = 'instructors.html'
+    context_object_name = 'instructors'
+
+
+# Vista para listar rutinas (requiere autenticación)
+class RoutineListView(LoginRequiredMixin, ListView):
+    model = Routine
+    template_name = 'routines.html'
+    context_object_name = 'routines'
+
+
+# Vista para crear una reserva (requiere autenticación)
+class BookingCreateView(LoginRequiredMixin, CreateView):
+    model = Booking
+    form_class = BookingForm
+    template_name = 'create_booking.html'
+    success_url = reverse_lazy('my_bookings')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Asigna el usuario autenticado
+        return super().form_valid(form)
+
+
+# Vista de éxito para la creación de una reserva
+class BookingSuccessView(LoginRequiredMixin, TemplateView):
+    template_name = 'booking_success.html'
+
+
+# Vista para mostrar las reservas del usuario (requiere autenticación)
+class MyBookingsView(LoginRequiredMixin, ListView):
+    model = Booking
+    template_name = 'my_bookings.html'
+    context_object_name = 'bookings'
+
+    def get_queryset(self):
+        return Booking.objects.filter(user=self.request.user)

@@ -22,28 +22,36 @@
         <li class="nav-item">
           <a href="/" class="nav-link">Home</a>
         </li>
+
         {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a href="/instructores" class="nav-link">Instructores</a>
-        </li>
-        <li class="nav-item">
-          <a href="/rutinas" class="nav-link">Rutinas</a>
-        </li>
-        <li class="nav-item">
-          <a href="/create-booking" class="nav-link">Turnos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">Salir</a>
-        </li>
+          <!-- Enlaces visibles cuando el usuario está autenticado -->
+          <li class="nav-item">
+            <a href="/instructores" class="nav-link">Instructores</a>
+          </li>
+          <li class="nav-item">
+            <a href="/rutinas" class="nav-link">Rutinas</a>
+          </li>
+          <li class="nav-item">
+            <a href="/create-booking" class="nav-link">Turnos</a>
+          </li>
+          <!-- Formulario para cerrar sesión con POST -->
+          <li class="nav-item">
+            <form action="{% url 'signout' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="nav-link btn btn-link" style="color: white;">Salir</button>
+            </form>
+          </li>
         {% else %}
-        <li class="nav-item">
-          <a href="/signin" class="nav-link">Login</a>
-        </li>
-        <li class="nav-item">
-          <a href="/signup" class="nav-link">Register</a>
-        </li>
+          <!-- Enlaces visibles cuando el usuario NO está autenticado -->
+          <li class="nav-item">
+            <a href="/signin" class="nav-link">Login</a>
+          </li>
+          <li class="nav-item">
+            <a href="/signup" class="nav-link">Register</a>
+          </li>
         {% endif %}
       </ul>
+
       <!-- Redes sociales dentro de un nuevo contenedor -->
       <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
         <li class="nav-item">

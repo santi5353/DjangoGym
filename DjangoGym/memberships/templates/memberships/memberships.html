@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center my-5">Membresías Disponibles</h1>
+<div class="container">
+  <div class="row">
+    {% for membresia in membresias %}
+    <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ membresia.nombre }}</h5>
+          <p>{{ membresia.descripcion }}</p>
+          <p class="text-primary"><strong>${{ membresia.precio }}</strong></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

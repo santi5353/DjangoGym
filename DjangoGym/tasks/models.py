@@ -38,24 +38,8 @@ class Booking(models.Model):
 
 from django.db import models
 
-class Membresia(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    duracion = models.IntegerField(help_text="Duración en días")
-    precio = models.DecimalField(max_digits=8, decimal_places=2)
-    activo = models.BooleanField(default=True)
-    beneficios = models.JSONField(default=list, help_text="Lista de beneficios de la membresía", blank=True)
-
-    def __str__(self):
-        return self.nombre
-
-
-class Servicio(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-    descripcion = models.TextField()
-    activo = models.BooleanField(default=True)
 
 
 
-    def __str__(self):
-        return self.nombre
+
+

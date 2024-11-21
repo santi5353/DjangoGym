@@ -4,23 +4,14 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
   <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 12px;">
     <div class="card-body">
-      <h2 class="card-title text-center mb-4">Registrate</h2>
+      <h2 class="card-title text-center mb-4">Regístrate</h2>
+
       
-      {% if error %}
-        <div class="alert alert-danger" role="alert">
-          {{ error }}
-        </div>
-      {% endif %}
 
-      {% if success %}
-      <div class="alert alert-success" role="alert">
-        {{ success }}
-      </div>
-    {% endif %}
-
-      <form action="/signup/" method="POST" class="needs-validation" novalidate>
+      <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
         
+        <!-- Nombre de Usuario -->
         <div class="mb-3">
           <label for="{{ form.username.id_for_label }}" class="form-label">Nombre de Usuario</label>
           {{ form.username.errors }}
@@ -32,9 +23,10 @@
           </div>
         </div>
 
+        <!-- Contraseña -->
         <div class="mb-3 position-relative">
           <label for="password" class="form-label">Contraseña</label>
-          {{ form.password.errors }}
+          {{ form.password1.errors }}
           <input type="password" name="password1" id="password" 
                  class="form-control" placeholder="Ingresa tu contraseña" required>
           <div class="invalid-feedback">
@@ -45,8 +37,10 @@
           </span>
         </div>
 
+        <!-- Confirmar Contraseña -->
         <div class="mb-3 position-relative">
           <label for="confirm_password" class="form-label">Repetir Contraseña</label>
+          {{ form.password2.errors }}
           <input type="password" name="password2" id="confirm_password" 
                  class="form-control" placeholder="Repite tu contraseña" required>
           <div class="invalid-feedback">
@@ -57,59 +51,58 @@
           </span>
         </div>
         
+        <!-- Botón de registro -->
         <button type="submit" class="btn btn-primary w-100 mt-3">
           Registrarse
         </button>
       </form>
 
       <p class="text-center mt-4">
-        <a href="/signin/" class="text-decoration-none">ya tienes cuenta? Ingresa!</a>
+        <a href="/signin/" class="text-decoration-none">Ya tienes cuenta? Ingresa!</a>
       </p>
     </div>
   </div>
 </div>
 
 <script>
-  // JavaScript para la validación del formulario
-  (function () {
-    'use strict'
-    const forms = document.querySelectorAll('.needs-validation')
-
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        form.classList.add('was-validated')
-      })
+  {% if success %}
+    Swal.fire({
+      title: '¡Registro Exitoso!',
+      text: 'Bienvenido a Nordic Power Gym.',
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
     })
+  {% elif messages %}
+    {% for message in messages %}
+      Swal.fire({
+        title: '¡Error!',
+        text: '{{ message }}',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      })
+    {% endfor %}
+  {% endif %}
+</script>
 
-    // JavaScript para mostrar/ocultar contraseña
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');  // Usamos el ID fijo aquí
+<script>
+  // JavaScript para mostrar/ocultar contraseña
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordInput = document.getElementById('password');  
+  togglePassword.addEventListener('click', function () {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.querySelector('#passwordIcon').classList.toggle('fa-eye');
+    this.querySelector('#passwordIcon').classList.toggle('fa-eye-slash');
+  });
 
-    togglePassword.addEventListener('click', function () {
-      // Alternar el tipo de input entre password y text
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      // Cambiar el ícono
-      this.querySelector('#passwordIcon').classList.toggle('fa-eye');
-      this.querySelector('#passwordIcon').classList.toggle('fa-eye-slash');
-    });
-
-    // JavaScript para mostrar/ocultar repetir contraseña
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const confirmPasswordInput = document.getElementById('confirm_password');
-
-    toggleConfirmPassword.addEventListener('click', function () {
-      // Alternar el tipo de input entre password y text
-      const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      confirmPasswordInput.setAttribute('type', type);
-      // Cambiar el ícono
-      this.querySelector('#confirmPasswordIcon').classList.toggle('fa-eye');
-      this.querySelector('#confirmPasswordIcon').classList.toggle('fa-eye-slash');
-    });
-  })()
+  // JavaScript para mostrar/ocultar repetir contraseña
+  const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+  const confirmPasswordInput = document.getElementById('confirm_password');
+  toggleConfirmPassword.addEventListener('click', function () {
+    const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    confirmPasswordInput.setAttribute('type', type);
+    this.querySelector('#confirmPasswordIcon').classList.toggle('fa-eye');
+    this.querySelector('#confirmPasswordIcon').classList.toggle('fa-eye-slash');
+  });
 </script>
 {% endblock %}

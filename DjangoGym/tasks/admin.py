@@ -1,32 +1,15 @@
 from django.contrib import admin
-from .models import Instructor, Routine, Booking,  Membresia, Servicio
+from .models import Instructor, Routine, Booking
+from memberships.models import Membresia
+from services.models import Servicio
 
-# Register your models here.
-
-# class TaskAdmin(admin.ModelAdmin):
-#     readonly_fields = ('created', )
-
-# admin.site.register(Task, TaskAdmin)
-
-
-@admin.register(Membresia)
-class MembresiaAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion', 'duracion', 'precio', 'activo')  # Campos a mostrar en la lista
-    search_fields = ('nombre', 'descripcion')  # Campos por los cuales se puede buscar
-    list_filter = ('activo',)  # Filtro por el campo 'activo'
-    ordering = ('nombre',)  # Ordenar por el campo 'nombre'
-
-@admin.register(Servicio)
-class ServicioAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion', 'activo')
 
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):
     list_display = ('name', 'specialty')
     search_fields = ('name', 'specialty')
 
-# Ya no necesitas registrar nuevamente el modelo Instructor aquí
-# admin.site.register(Instructor)
+
 
 
 @admin.register(Routine)

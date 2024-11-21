@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks'
+    'tasks',
+    'memberships',
+    'services',
 ]
 
 MIDDLEWARE = [
@@ -133,5 +135,5 @@ EMAIL_HOST = 'smtp.gmail.com'  # Cambia esto según tu proveedor de correo
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'santiagosolano036@gmail.com'
-EMAIL_HOST_PASSWORD =''
+EMAIL_HOST_PASSWORD ='herhpyjpcqrbjlma'
 
