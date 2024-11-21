@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Instructor, Routine, Booking
+from .models import Instructor, Routine, Booking,  Membresia, Servicio
 
 # Register your models here.
 
@@ -8,6 +8,17 @@ from .models import Instructor, Routine, Booking
 
 # admin.site.register(Task, TaskAdmin)
 
+
+@admin.register(Membresia)
+class MembresiaAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'descripcion', 'duracion', 'precio', 'activo')  # Campos a mostrar en la lista
+    search_fields = ('nombre', 'descripcion')  # Campos por los cuales se puede buscar
+    list_filter = ('activo',)  # Filtro por el campo 'activo'
+    ordering = ('nombre',)  # Ordenar por el campo 'nombre'
+
+@admin.register(Servicio)
+class ServicioAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'descripcion', 'activo')
 
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):

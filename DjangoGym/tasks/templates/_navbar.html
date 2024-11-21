@@ -1,6 +1,11 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="/">Navbar</a>
+    <a class="navbar-brand" href="">
+      <img src="{% static 'img/vikingo.png' %}" alt="Vikingo" style="width: 40px; height: auto; margin-right: 10px;">
+      Nordic Power Gym
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -13,15 +18,13 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
         <li class="nav-item">
           <a href="/" class="nav-link">Home</a>
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a href="/instructores" class="nav-link"
-            >Instructores</a
-          >
+          <a href="/instructores" class="nav-link">Instructores</a>
         </li>
         <li class="nav-item">
           <a href="/rutinas" class="nav-link">Rutinas</a>
@@ -40,6 +43,24 @@
           <a href="/signup" class="nav-link">Register</a>
         </li>
         {% endif %}
+      </ul>
+      <!-- Redes sociales dentro de un nuevo contenedor -->
+      <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
+        <li class="nav-item">
+          <a href="https://wa.me/yourphonenumber" class="nav-link" target="_blank">
+            <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.instagram.com/yourprofile" class="nav-link" target="_blank">
+            <i class="fab fa-instagram" style="font-size: 1.5rem;"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.facebook.com/yourprofile" class="nav-link" target="_blank">
+            <i class="fab fa-facebook-f" style="font-size: 1.5rem;"></i>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

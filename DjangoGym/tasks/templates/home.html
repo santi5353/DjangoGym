@@ -1,7 +1,207 @@
 {% extends 'base.html' %} {% block content %}
+{% load static %}
 
-<div class="container">
-  <h1>Home</h1>
+<header class="bg-dark text-white text-center py-5">
+  <div class="container banner" >
+    <h1 class="display-4">Bienvenido a Nordic Power Gym
+    </h1>
+    <p class="lead">Entrena, esfuérzate y alcanza tus metas.</p>
+  </div>
+</header>
+<!-- Quiénes Somos -->
+<section id="quienes-somos" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">¿Quiénes Somos?</h2>
+    <p class="lead text-center">
+      En  Nordic Power Gym , somos un equipo de profesionales apasionados por el bienestar y la salud. Nuestro objetivo es brindarte las mejores herramientas, el mejor ambiente y un apoyo constante para que alcances tus metas personales de forma efectiva y saludable.
+    </p>
+    <p class="text-center">
+      Contamos con entrenadores altamente capacitados, un ambiente amigable y motivador, y equipos de última tecnología para que tu experiencia de entrenamiento sea única. Ya sea que quieras perder peso, ganar músculo o simplemente mantenerte en forma, ¡aquí encontrarás todo lo que necesitas!
+    </p>
+    <p class="text-center">
+      No importa tu nivel de condición física, en Nordic Power Gym te ayudamos a superarte cada día. Únete a nuestra comunidad y empieza a transformar tu vida hoy mismo. ¡Te estamos esperando!
+    </p>
+    <div class="text-center">
+      <a href="/signup" class="btn btn-primary btn-lg">¡Inscríbete Ahora!</a>
+    </div>
+  </div>
+</section>
+
+<!-- Servicios -->
+ <div class="fondo-servicios">
+<h1 class="text-center my-5">Nuestros Servicios</h1>
+<div class="servicios-container row justify-content-center">
+  {% for servicio in servicios %}
+  <div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="card servicio-card shadow-sm border-0 h-100 text-center">
+      <div class="card-body d-flex flex-column align-items-center">
+        <!-- Icono del servicio -->
+        <div class="icon mb-3">
+          <i class="{{ servicio.icono }} fa-3x text-gradient"></i>
+        </div>
+        <h5 class="card-title fw-bold text-dark">{{ servicio.nombre }}</h5>
+        <p class="card-text text-muted">{{ servicio.descripcion }}</p>
+      </div>
+      <!-- Botón opcional para más detalles -->
+      <div class="card-footer bg-white border-0">
+        <a href="#formulario-contacto" class="btn btn-outline-primary w-75">Más información</a>  <!-- Enlace al formulario -->
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
+</div>
+
+<section id="membresias" class="py-5">
+  <div class="container text-center">
+    <h1 class="mb-4">Membresías Disponibles</h1>
+    <div class="row justify-content-center">
+      {% for membresia in membresias %}
+      <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body text-center">
+            <!-- Icono de la membresía -->
+            {% if membresia.nombre == "Basica" %}
+            <div class="icon mb-3">
+              <i class="fas fa-dumbbell fa-3x text-primary"></i>
+            </div>
+            {% elif membresia.nombre == "Intermedia" %}
+            <div class="icon mb-3">
+              <i class="fas fa-crown fa-3x text-warning"></i>
+            </div>
+            {% elif membresia.nombre == "Premiun" %}
+            <div class="icon mb-3">
+              <i class="fas fa-gem fa-3x text-success"></i>
+            </div>
+            {% endif %}
+            <h5 class="card-title fw-bold">{{ membresia.nombre }}</h5>
+            <p class="card-text">{{ membresia.descripcion }}</p>
+            <p class="card-text fs-4 text-secondary"><strong>${{ membresia.precio }}</strong></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Preguntas Frecuentes -->
+<section id="faq" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
+    <div class="accordion" id="faqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq1-heading">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+            ¿Qué horarios tiene el gym?
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1-heading">
+          <div class="accordion-body">
+            Nuestro gym está abierto de 6:00 AM a 10:00 PM de lunes a sábado.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq2-heading">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+            ¿Hay estacionamiento disponible?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2-heading">
+          <div class="accordion-body">
+            Sí, contamos con estacionamiento gratuito para nuestros socios.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq3-heading">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+            ¿Se pueden cancelar membresías?
+          </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3-heading">
+          <div class="accordion-body">
+            Puedes cancelar tu membresía en cualquier momento desde nuestra recepción.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="formulario-contacto" class="my-5">
+  <div class="p-4 shadow-lg rounded-lg">
+    <!-- Card contenedora -->
+    <div class="">
+      <div class="row">
+        <!-- Formulario de contacto -->
+        <div class="col-12 col-md-6 mb-4">
+          <h1 class="text-center mb-5">Contáctanos</h1>
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_nombre" class="form-label">Nombre</label>
+              {{ form.nombre }} <!-- Se mantiene la propiedad original del formulario -->
+            </div>
+            <div class="mb-3">
+              <label for="id_email" class="form-label">Correo Electrónico</label>
+              {{ form.email }} <!-- Se mantienen las propiedades de la etiqueta -->
+            </div>
+            <div class="mb-3">
+              <label for="id_asunto" class="form-label">Asunto</label>
+              {{ form.asunto }} <!-- Se mantienen las propiedades de la etiqueta -->
+            </div>
+            <div class="mb-3">
+              <label for="id_mensaje" class="form-label">Mensaje</label>
+              {{ form.mensaje }} <!-- Se mantienen las propiedades de la etiqueta -->
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+          </form>
+        </div>
+
+        <!-- Mapa de ubicación -->
+        <div class="col-12 col-md-6 mb-4">
+          <h1 class="text-center mb-4">Ubicación</h1>
+          <div class="" style="height: 90%; border-radius: 10px;">
+            <!-- Aquí el iframe de Google Maps con estilo para que ocupe todo el espacio -->
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5305788604787!2d-58.41747462494442!3d-34.590742556811925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcca80e7682f0b%3A0xfbb9dca0f5c7f76c!2sI.F.T.S.%20N%C2%B0%2018!5e0!3m2!1ses-419!2sar!4v1731955954027!5m2!1ses-419!2sar"
+              width="100%" height="400" style="border:0; height: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4">
+  <div class="container text-center">
+    <p>&copy; 2024  Nordic Power Gym. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+        Swal.fire({
+            icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
+            title: "¡Notificación!",
+            text: "{{ message }}",
+            confirmButtonText: "Aceptar"
+        });
+    {% endfor %}
+</script>
+
+{% endif %}
 
 {% endblock %}

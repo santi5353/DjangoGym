@@ -1,0 +1,209 @@
+/* Estilos del encabezado */
+header {
+    position: relative; /* Necesario para posicionar el texto sobre la imagen */
+    background-image: url("http://127.0.0.1:8000/static/img/1.jpg");
+    background-size: cover; /* Asegura que la imagen cubra todo el espacio del header */
+    background-position: center; /* Centra la imagen */
+    height: 70vh; /* Define la altura del header */
+    mask-image: linear-gradient( black 90%, transparent );
+  }
+  
+  
+  /* Contenedor que incluye el texto */
+  header .banner {
+    position: absolute; /* Para que el texto quede sobre la imagen */
+    top: 50%; /* Centramos verticalmente */
+    left: 50%; /* Centramos horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste final para centrar */
+    text-align: center; /* Centra el texto dentro del contenedor */
+    color: white; /* Color del texto */
+    z-index: 1; /* Asegura que el texto quede por encima de la imagen */
+  }
+  
+  /* Sombra de la imagen de fondo */
+  header::before {
+    content: ''; /* Se necesita para crear un pseudo-elemento */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Sombra semi-transparente sobre la imagen */
+    z-index: 0; /* Coloca la sombra debajo del texto */
+  }
+  
+  /* Sombra para el texto para mejorar su visibilidad */
+  header h1, header p {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Añade sombra al texto para que resalte */
+  }
+  
+  /* Responsividad */
+  @media (max-width: 768px) {
+    header {
+      height: 50vh; /* Reducimos la altura en pantallas más pequeñas */
+    }
+  
+    header h1 {
+      font-size: 2.5rem; /* Reducimos el tamaño del título */
+    }
+  
+    header p {
+      font-size: 1.2rem; /* Reducimos el tamaño del texto */
+    }
+  }/* Ajustar el espaciado entre los iconos */
+/* Asegurar que los elementos estén alineados horizontalmente en todos los tamaños de pantalla */
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;  /* Alinea verticalmente los elementos dentro del contenedor */
+  }
+  
+  .navbar-nav .nav-item {
+    margin-left: 10px;  /* Espacio entre los enlaces */
+  }
+  
+  .navbar-nav .nav-link {
+    padding-left: 5px;   /* Reduce el espacio dentro de los enlaces */
+    padding-right: 5px;  /* Reduce el espacio dentro de los enlaces */
+  }
+  
+  .navbar-nav .nav-item a i {
+    margin-right: 5px; /* Espacio entre los iconos y los textos */
+  }
+  
+  /* Asegurarse de que los iconos estén alineados horizontalmente */
+  .navbar-nav .nav-item a {
+    display: flex;
+    align-items: center;  /* Alinea los íconos y el texto */
+  }
+  
+  /* En pantallas pequeñas, los elementos seguirán alineados horizontalmente */
+  @media (max-width: 991px) {
+    .navbar-nav {
+      flex-direction: row;  /* Mantiene la alineación horizontal en mobile */
+    }
+  
+    /* Asegura que los íconos y enlaces se alineen correctamente sin espacio excesivo */
+    .navbar-nav .nav-item a {
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  
+  
+  .membresias-container {
+    display: flex;         /* Coloca las tarjetas en una fila */
+    flex-wrap: wrap;       /* Permite que las tarjetas se ajusten en filas cuando el contenedor se llena */
+    margin: 0 auto;  
+    justify-content: center;           /* Centra las tarjetas horizontalmente */
+    /* Centra las tarjetas dentro del contenedor */
+  }
+  
+  .card {
+    width: 18rem;          /* Mantiene el ancho de cada tarjeta */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra para un toque visual */
+    transition: transform 0.3s ease; /* Agrega transición para un efecto al pasar el cursor */
+  }
+  
+  .card:hover {
+    transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+  }
+  
+
+  #quienes-somos {
+    background-color: #f8f9fa; /* Fondo suave para esta sección */
+    color: #333; /* Texto oscuro para una mejor legibilidad */
+  }
+  
+  #quienes-somos .btn {
+    background-color: #007bff; /* Color del botón */
+    border: none;
+    font-size: 1.25rem; /* Tamaño de texto adecuado */
+    padding: 15px 30px; /* Tamaño del botón */
+    transition: background-color 0.3s ease;
+  }
+  
+  #quienes-somos .btn:hover {
+    background-color: #0056b3; /* Efecto hover para el botón */
+  }
+  
+  #membresias {
+    background-color: #f8f9fa; /* Fondo suave para contraste */
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px; /* Esquinas redondeadas */
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Efecto de hover */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  }
+  
+  .card-body .icon {
+    font-size: 1rem; /* Tamaño del icono */
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .text-primary {
+    color: #007bff !important; /* Color azul */
+  }
+  
+  .text-warning {
+    color: #ffc107 !important; /* Color dorado */
+  }
+  
+  .text-success {
+    color: #28a745 !important; /* Color verde */
+  }
+  
+
+  .servicios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .servicio-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+  }
+  
+  .servicio-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  
+  .card-title {
+    font-size: 1.6rem;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .card-footer .btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .card-footer .btn:hover {
+    background-color: #2575fc;
+    color: #fff;
+  }
+  

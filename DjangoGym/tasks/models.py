@@ -1,18 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
 
-# class Task(models.Model):
-#   title = models.CharField(max_length=200)
-#   description = models.TextField(max_length=1000)
-#   created = models.DateTimeField(auto_now_add=True)
-#   datecompleted = models.DateTimeField(null=True, blank=True)
-#   important = models.BooleanField(default=False)
-#   user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#   def __str__(self):
-#     return self.title + ' - ' + self.user.username
 
 
 class Instructor(models.Model):
@@ -44,3 +36,26 @@ class Booking(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.instructor.name} - {self.routine.name}'
 
+from django.db import models
+
+class Membresia(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    duracion = models.IntegerField(help_text="Duración en días")
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+    activo = models.BooleanField(default=True)
+    beneficios = models.JSONField(default=list, help_text="Lista de beneficios de la membresía", blank=True)
+
+    def __str__(self):
+        return self.nombre
+
+
+class Servicio(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField()
+    activo = models.BooleanField(default=True)
+
+
+
+    def __str__(self):
+        return self.nombre
